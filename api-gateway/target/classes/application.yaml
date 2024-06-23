@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: microservice1
+          uri: lb://microservice1
+          predicates:
+            - Path=/microservice1/**
+        - id: microservice2
+          uri: lb://microservice2
+          predicates:
+            - Path=/microservice2/**
+        - id: microservice3
+          uri: lb://microservice3
+          predicates:
+            - Path=/microservice3/**
+  sleuth:
+    sampler:
+      probability: 1.0
+  zipkin:
+    base-url: http://localhost:9411
+    enabled: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
